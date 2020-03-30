@@ -51,7 +51,7 @@ public:
       * intervalToRun time in millis to make we don't run it too often
       */
     ThresholdDebouncer(unsigned long threshold = 200, 
-      unsigned long debounce = 30, 
+      unsigned long debounceInterval = 30, 
       uint8_t intervalToRun=10);
     ~ThresholdDebouncer() {}
 
@@ -76,10 +76,12 @@ private:
     //unsigned long _doubleOvershootTimeout = 300; // 0.3 seconds
     unsigned long _overshootForTimeOut;//Millis to determine it's a loog event
     unsigned long _threshold; //to filter out lower values
-    unsigned long _debounce; //millis to filter noisy signal going under threshold
+    unsigned long _debounceInterval; //millis to filter noisy signal going under threshold
     uint8_t _intervalToRun = 10; //millis to make sure we don't run too often
     unsigned long _lastLoop = 0; //Used to track time of when loop was lastly called
     unsigned long _firstOvershotAt = 0;
+    boolean _debouncing = false;
+    unsigned long _stopOvershotAt;
     
 };
 
