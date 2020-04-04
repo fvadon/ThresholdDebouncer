@@ -16,7 +16,7 @@ Please refer to the example sketch or here under for available variables and act
 
 # Example
 
-```c_cpp
+```cpp
 #include <ThresholdDebouncer.h>
 	
 // Threshold Debouncer Variables
