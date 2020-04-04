@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "ThresholdDebouncer.h"
 
-ThresholdDebouncer::ThresholdDebouncer(unsigned long threshold, unsigned long debounceInterval, uint8_t intervalToRun)
+ThresholdDebouncer::ThresholdDebouncer(unsigned long threshold, unsigned short debounceInterval, unsigned short intervalToRun)
 {
   this->_threshold = threshold;
   this->_debounceInterval = debounceInterval;
@@ -13,13 +13,6 @@ ThresholdDebouncer &ThresholdDebouncer::onSingleOvershoot(callback_t callback)
   this->_onSingleOvershootCallback = callback;
   return *this;
 }
-
-/* not supported for now
-ThresholdDebouncer& ThresholdDebouncer::onDoubleOvershoot(callback_t callback, unsigned long timeout) {
-  this->_onDoubleOvershootCallback = callback;
-  this->_doubleOvershootTimeout = timeout;
-  return *this;
-}*/
 
 ThresholdDebouncer &ThresholdDebouncer::ongoingLongOvershootFor(callback_t callback, unsigned long timeout)
 {
@@ -36,7 +29,7 @@ ThresholdDebouncer &ThresholdDebouncer::offLongOvershoot(callback_t callback)
 
 /* Analyse the value coming from read and callback if needed
 */
-void ThresholdDebouncer::analyseSignalValue(uint16_t signalReadValue)
+void ThresholdDebouncer::analyseSignalValue(unsigned long signalReadValue)
 {
   this->_signalReadValue = signalReadValue;
   unsigned long curTime = millis();

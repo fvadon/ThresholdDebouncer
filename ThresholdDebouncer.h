@@ -13,7 +13,6 @@ public:
     
     typedef enum {
       SINGLE_OVERSHOOT,
-      /*DOUBLE_OVERSHOOT,*/
       ONGOING_LONG_OVERSHOOT,
       OFF_LONG_OVERSHOOT
     } overshoot_pattern_t;
@@ -24,13 +23,6 @@ public:
      * Callback if the signal overshoots thresholed once
      */
     ThresholdDebouncer& onSingleOvershoot(callback_t callback);
-    /*
-     * Callback if the signal overshoots threshold twice
-     */
-    /* 
-    * not supported yet 
-    * ThresholdDebouncer& onDoubleOvershoot(callback_t callback, unsigned long timeout=300);
-    */
 
     /*
     * Callback for event ongoing longer than timeout, 
@@ -51,33 +43,31 @@ public:
       * intervalToRun time in millis to make we don't run it too often
       */
     ThresholdDebouncer(unsigned long threshold = 200, 
-      unsigned long debounceInterval = 30, 
-      uint8_t intervalToRun=10);
+      unsigned short debounceInterval = 30, 
+      unsigned short intervalToRun=10);
     ~ThresholdDebouncer() {}
 
-    void analyseSignalValue(uint16_t signalReadValue);
+    void analyseSignalValue(unsigned long signalReadValue);
 
 private:
 
     //Signal value read to analyse for callbacks
     unsigned long _signalReadValue;
+    //Threshold to filter out lower values
+    unsigned long _threshold; 
+
 
     // callbacks
     callback_t _onSingleOvershootCallback;
-    /* Not supported for now
-    callback_t _onDoubleOvershootCallback;
-    */
     callback_t _ongoingOvershootForCallback;
     callback_t _offLongOvershootCallback;
 
     signal_state_t _prevState = ThresholdDebouncer::IDLE;
     signal_state_t _state = ThresholdDebouncer::IDLE;
 
-    //unsigned long _doubleOvershootTimeout = 300; // 0.3 seconds
-    unsigned long _overshootForTimeOut;//Millis to determine it's a loog event
-    unsigned long _threshold; //to filter out lower values
-    unsigned long _debounceInterval; //millis to filter noisy signal going under threshold
-    uint8_t _intervalToRun = 10; //millis to make sure we don't run too often
+    unsigned short _overshootForTimeOut;//Millis to determine it's a loog event
+    unsigned short _debounceInterval; //millis to filter noisy signal going under threshold
+    unsigned short _intervalToRun = 10; //millis to make sure we don't run too often
     unsigned long _lastLoop = 0; //Used to track time of when loop was lastly called
     unsigned long _firstOvershotAt = 0;
     boolean _debouncing = false;
